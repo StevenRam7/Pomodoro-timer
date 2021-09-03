@@ -59,38 +59,39 @@ function Pomodoro() {
 
   const decreaseFocus = (event) => {
     event.preventDefault();
-    setFocusDuration(time => time - 5);
+    setFocusDuration((time) => time - 5);
     if (focusDuration <= 5) {
       setFocusDuration(5);
     }
-  }
+  };
   const increaseFocus = (event) => {
     event.preventDefault();
-    setFocusDuration(time => time + 5);
+    setFocusDuration((time) => time + 5);
     if (focusDuration >= 60) {
       setFocusDuration(60);
     }
-  }
+  };
   const decreaseBreak = (event) => {
     event.preventDefault();
-    setBreakDuration(time => time - 1);
+    setBreakDuration((time) => time - 1);
     if (breakDuration <= 1) {
       setBreakDuration(1);
     }
-  }
+  };
   const increaseBreak = (event) => {
     event.preventDefault();
-    setBreakDuration(time => time + 1); 
+    setBreakDuration((time) => time + 1);
     if (breakDuration >= 15) {
       setBreakDuration(15);
-    }   
-  }
+    }
+  };
   /**
    * Custom hook that invokes the callback function every second
    *
    * NOTE: You will not need to make changes to the callback function
    */
-  useInterval(() => {
+  useInterval(
+    () => {
       if (session.timeRemaining === 0) {
         new Audio("https://bigsoundbank.com/UPLOAD/mp3/1482.mp3").play();
         return setSession(nextSession(focusDuration, breakDuration));
@@ -141,8 +142,8 @@ function Pomodoro() {
                 type="button"
                 className="btn btn-secondary"
                 data-testid="decrease-focus"
-                onClick = {decreaseFocus}
-                disabled = {session != null}
+                onClick={decreaseFocus}
+                disabled={session != null}
               >
                 <span className="oi oi-minus" />
               </button>
@@ -150,8 +151,8 @@ function Pomodoro() {
                 type="button"
                 className="btn btn-secondary"
                 data-testid="increase-focus"
-                onClick = {increaseFocus}
-                disabled = {session != null}
+                onClick={increaseFocus}
+                disabled={session != null}
               >
                 <span className="oi oi-plus" />
               </button>
@@ -169,8 +170,8 @@ function Pomodoro() {
                   type="button"
                   className="btn btn-secondary"
                   data-testid="decrease-break"
-                  onClick = {decreaseBreak}
-                  disabled = {session != null}
+                  onClick={decreaseBreak}
+                  disabled={session != null}
                 >
                   <span className="oi oi-minus" />
                 </button>
@@ -178,8 +179,8 @@ function Pomodoro() {
                   type="button"
                   className="btn btn-secondary"
                   data-testid="increase-break"
-                  onClick = {increaseBreak}
-                  disabled = {session != null}
+                  onClick={increaseBreak}
+                  disabled={session != null}
                 >
                   <span className="oi oi-plus" />
                 </button>
@@ -215,15 +216,20 @@ function Pomodoro() {
               className="btn btn-secondary"
               data-testid="stop"
               title="Stop the session"
-              onClick = {stopButton}
-              disabled = {session == null}
+              onClick={stopButton}
+              disabled={session == null}
             >
               <span className="oi oi-media-stop" />
             </button>
           </div>
         </div>
       </div>
-    <SessionDisplay session={session} focusDuration={focusDuration} breakDuration={breakDuration} isTimerRunning={isTimerRunning}/>
+      <SessionDisplay
+        session={session}
+        focusDuration={focusDuration}
+        breakDuration={breakDuration}
+        isTimerRunning={isTimerRunning}
+      />
     </div>
   );
 }
