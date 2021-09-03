@@ -56,22 +56,33 @@ function Pomodoro() {
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
 
-  // ToDo: SET LIMITS to focus and break adjustments.
-   const decreaseFocus = (event) => {
+  const decreaseFocus = (event) => {
     event.preventDefault();
-    setFocusDuration(time => time - 1);
+    setFocusDuration(time => time - 5);
+    if (focusDuration <= 5) {
+      setFocusDuration(5);
+    }
   }
   const increaseFocus = (event) => {
     event.preventDefault();
-    setFocusDuration(time => time + 1);
+    setFocusDuration(time => time + 5);
+    if (focusDuration >= 60) {
+      setFocusDuration(60);
+    }
   }
   const decreaseBreak = (event) => {
     event.preventDefault();
     setBreakDuration(time => time - 1);
+    if (breakDuration <= 1) {
+      setBreakDuration(1);
+    }
   }
   const increaseBreak = (event) => {
     event.preventDefault();
-    setBreakDuration(time => time + 1);    
+    setBreakDuration(time => time + 1); 
+    if (breakDuration >= 15) {
+      setBreakDuration(15);
+    }   
   }
   /**
    * Custom hook that invokes the callback function every second
@@ -115,6 +126,14 @@ function Pomodoro() {
     setIsTimerRunning(false);
     setSession(null);
   }
+
+  function hideWhenNull() {
+    if (session == null) {
+      document.getElementById("hideWhenNull").style.display = "none";
+    }
+  }
+
+  //const percentTimeLeft = (secondsToDuration(session.timeRemaining)/(focusDuration * 60)) * 100;
 
   return (
     <div className="pomodoro">
@@ -215,7 +234,6 @@ function Pomodoro() {
         {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
         <div className="row mb-2">
           <div className="col">
-            {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
             <h2 data-testid="session-title">
               {session?.label} for {minutesToDuration(focusDuration)} minutes
             </h2>
@@ -227,14 +245,14 @@ function Pomodoro() {
         </div>
         <div className="row mb-2">
           <div className="col">
-            <div className="progress" style={{ height: "20px" }}>
+            <div className="progress" style={{ height: "20px" }} id="hideWhenNull" onChange={hideWhenNull}>
               <div
-                className="progress-bar"
+                className="progress-bar"                
                 role="progressbar"
                 aria-valuemin="0"
                 aria-valuemax="100"
                 aria-valuenow="0" // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: "0%" }} // TODO: Increase width % as elapsed time increases
+                //style={{ width: percentTimeLeft + "%" }} // TODO: Increase width % as elapsed time increases
               />
             </div>
           </div>
