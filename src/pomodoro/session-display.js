@@ -11,11 +11,11 @@ function SessionDisplay({
   if (session == null) {
     return null;
   } else {
-    if (session.label == "Focusing") {
+    if (session.label === "Focusing") {
       percentTimeLeft =
         (1 - session.timeRemaining / (focusDuration * 60)) * 100;
     }
-    if (session.label == "On Break") {
+    if (session.label === "On Break") {
       percentTimeLeft =
         (1 - session.timeRemaining / (breakDuration * 60)) * 100;
     }
@@ -25,7 +25,7 @@ function SessionDisplay({
           <div className="col">
             <h2 data-testid="session-title">
               {session?.label} for{" "}
-              {session.label == "Focusing"
+              {session.label === "Focusing"
                 ? minutesToDuration(focusDuration)
                 : minutesToDuration(breakDuration)}{" "}
               minutes
@@ -34,7 +34,7 @@ function SessionDisplay({
               {secondsToDuration(session?.timeRemaining)} remaining
             </p>
             <h3 className="pause-text">
-              {isTimerRunning == false ? "PAUSED" : null}
+              {isTimerRunning === false ? "PAUSED" : null}
             </h3>
           </div>
         </div>

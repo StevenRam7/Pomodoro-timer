@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
-import { minutesToDuration, secondsToDuration } from "../utils/duration";
 import SessionDisplay from "./session-display";
+import DurationTimers from "./duration-timers";
 
 // These functions are defined outside of the component to insure they do not have access to state
 // and are, therefore more likely to be pure.
@@ -57,34 +57,6 @@ function Pomodoro() {
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
 
-  const decreaseFocus = (event) => {
-    event.preventDefault();
-    setFocusDuration((time) => time - 5);
-    if (focusDuration <= 5) {
-      setFocusDuration(5);
-    }
-  };
-  const increaseFocus = (event) => {
-    event.preventDefault();
-    setFocusDuration((time) => time + 5);
-    if (focusDuration >= 60) {
-      setFocusDuration(60);
-    }
-  };
-  const decreaseBreak = (event) => {
-    event.preventDefault();
-    setBreakDuration((time) => time - 1);
-    if (breakDuration <= 1) {
-      setBreakDuration(1);
-    }
-  };
-  const increaseBreak = (event) => {
-    event.preventDefault();
-    setBreakDuration((time) => time + 1);
-    if (breakDuration >= 15) {
-      setBreakDuration(15);
-    }
-  };
   /**
    * Custom hook that invokes the callback function every second
    *
@@ -123,72 +95,23 @@ function Pomodoro() {
       return nextState;
     });
   }
+  //make separate component
 
   function stopButton() {
     setIsTimerRunning(false);
     setSession(null);
   }
+  //make separate component
 
   return (
     <div className="pomodoro">
-      <div className="row">
-        <div className="col">
-          <div className="input-group input-group-lg mb-2">
-            <span className="input-group-text" data-testid="duration-focus">
-              Focus Duration: {minutesToDuration(focusDuration)}
-            </span>
-            <div className="input-group-append">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="decrease-focus"
-                onClick={decreaseFocus}
-                disabled={session != null}
-              >
-                <span className="oi oi-minus" />
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="increase-focus"
-                onClick={increaseFocus}
-                disabled={session != null}
-              >
-                <span className="oi oi-plus" />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="float-right">
-            <div className="input-group input-group-lg mb-2">
-              <span className="input-group-text" data-testid="duration-break">
-                Break Duration: {minutesToDuration(breakDuration)}
-              </span>
-              <div className="input-group-append">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="decrease-break"
-                  onClick={decreaseBreak}
-                  disabled={session != null}
-                >
-                  <span className="oi oi-minus" />
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="increase-break"
-                  onClick={increaseBreak}
-                  disabled={session != null}
-                >
-                  <span className="oi oi-plus" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DurationTimers
+        session={session}
+        focusDuration={focusDuration}
+        breakDuration={breakDuration}
+        setFocusDuration={setFocusDuration}
+        setBreakDuration={setBreakDuration}
+      />
       <div className="row">
         <div className="col">
           <div
