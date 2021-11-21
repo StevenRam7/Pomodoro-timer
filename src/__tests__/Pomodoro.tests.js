@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 
 describe("Pomodoro Timer", () => {
   beforeEach(() => {
+    console.log("x");
     // Playing audio is not supported in jsdom
     window.HTMLMediaElement.prototype.load = jest.fn();
     window.HTMLMediaElement.prototype.play = jest.fn();
